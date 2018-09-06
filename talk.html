@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="talk.css">
+		<Meta charset="UTF-8"/>
+		<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+
+
+		<title>IF TALK</title>
+	</head>
+	<body>
+		<script >
+			//criando o socket e conectando
+			var socket = io.connect('http://localhost:8080');
+			//quando conectar, pergunta seu nome e chama o servidor no canal adduser
+			socket.on('connect', function(){
+				socket.emit('adduser', prompt("What's your name?"));
+			});
+	
+			function addRoom(){
+            	socket.emit('addRoom', prompt("What's your name?"));
+        	}
+			//pegou a div #conversation e anexou html com nome e mensagem		
+			socket.on('updaterooms', function(rooms, current_room) {
+			//limpa a div sala
+				$('#rooms').empty();
+			
+				$.each(rooms, function(key, value) {
+					if(value == current_room){
+						//adicionar div com nome da sala em #rooms
+						$('#rooms').append('<div>' + value + '</div>');
+					}
+					else {
+						//adiciona div em #rooms com ancora que executa a função swithroom
+						$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
+					}
+				});
+			});
+			//mandando para o servidor no canal switchRoom, nome da sala clicada
+			function switchRoom(room){
+				socket.emit('switchRoom', room);
+			}
+			$(function(){
+				//quando clicar no botao #datasend
+				$('#datasend').click( function() {
+					//pegou digitado em #data
+					var message = $('#data').val();
+					//apaga o que tem em #data
+					$('#data').val('');
+					//enviando para servidor no canal sendchat a mensagem digitada
+					socket.emit('sendchat', message);
+				});
+			$('#data').keypress(function(e) {
+				if(e.which == 13) {
+					$(this).blur();
+					$('#datasend').focus().click();
+				}
+			});
+		});
+		</script>
+
+		<div id="q1">
+			<div id="q2">
+					<div id="q3"> 	<b id="salas">IF TALK </b> </div>
+						<div id="q4">						
+							<table>
+								<tr>
+									<td>
+										<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+											<input id="data"/>
+											<input type="button" id="datasend" value="procurar" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="button" id="datasend" style="width:25%;margin-left: 25px;margin-top: -170px;border-radius:10%;background-color: #FFbb00 ;color:#fff;font-family: 'Fjalla One', sans-serif;font-size: 20px;display:inline-block;cursor:pointer; " value="INFO 3M" 
+										  />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										 <input type="button" id="datasend" style="width:25%;margin-left: 25px;margin-top: -135px;border-radius:10%;background-color: #FFbb00 ;color:#fff;font-family: 'Fjalla One', sans-serif;font-size: 20px;display:inline-block;cursor:pointer; " value="BALADEIROS" 
+										  /></td>
+								</tr>
+							</table>
+							<div style=" background-color: #4682B4;width:370px;height: 50px;margin-left: 0px;margin-top: 215px;position: absolute;"> 
+
+								<input type="button" name="adicionar" value="+" id="adicionar" style="background-color: orange; width:37px;height: 37px;position: absolute;border-radius:100%;font-size: 25px;color:white;margin-left:  10px; margin-top: 5px;"> 
+
+							</div>
+						</div>
+						<div id="q5">
+						<div id="content">
+						
+
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:09:02 jhonatas Israel <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Oi<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:12:25 Luana Beariz  <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Oi, tudo bom com você?<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:19:02 jhonatas Israel <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Tudo, e com você ?<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:22:25 Luana Beariz  <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Tudo bem, você viu Raiane?<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:25:02 Raiane Linhares <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Cheguei... tudo  bom com vocês? <br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:27:25 Luana Beariz  <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;"> Tudo otimo<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:28:06 jhonatas Israel <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Tudo <br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:30:25 Luana Beariz  <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Bora marcar para sair?<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:31:02 Addson Costa<br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Eita que eu tambem vou!!!<br></b></b>
+								</div>
+							</b>
+							<b style="font-size:12px; width:auto; height:auto;"></b>
+								<div style="width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 10px 10px 10px;-moz-box-shadow: #B3B3B3 10px 10px 10px; box-shadow: #B3B3B3 10px 15px 19px; margin-bottom: 10px;">
+
+									<b style="font-size:15px; color:white; margin-left: 30px;"> 2016-10-22 13:32:25 Luana Beariz  <br> <b style="margin-left: 30px; font-size:20px; margin-top:20px; color:white;">Vamos todos!!!<br></b></b>
+								</div>
+							</b>
+							
+
+
+						
+							<form id="chat_form">
+    							<input type="text" id="CInput" id="msm" name="mensagem" style="width:400px;height: 26px;padding-left: 29px;margin-top:0px;position: absolute;border-radius:10%;">
+    							<input type="button" value="Enviar" name="ENVIAR" id="send" id="btmsm" style="width:100px;margin-left: 450px;margin-top: 0px;position: absolute;border-radius:10%;background-color: orange;color:#fff;font-family: 'Fjalla One', sans-serif;font-size: 20px;display:inline-block;cursor:pointer;">
+							</form>
+						</div>
+			</div></div>
+			<script >
+				var socket = io.connect('http://tira.ifrn.edu.br:3000');
+      $('form #send').click(function(){
+		$.ajax({
+			url: "paginaSubmit.php",
+			method: "POST",
+			data: {id: 1, mensa: $('#CInput').val()},
+			success: function(par) {
+				$('#CInput').val('');
+				socket.emit('canal', {id: 1, mensa: par});
+			}
+		});
+        	return false;
+	});
+	socket.on('canal', function(par){
+		if(par.id == 1){
+			$('#content').append(par.mensa);
+		}
+	});
+    
+			</script></body></html>
+			

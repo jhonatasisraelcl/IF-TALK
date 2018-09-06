@@ -1,0 +1,37 @@
+<?php function BP($id){ ?>
+<?php
+
+include_once "includes.php";
+
+<DOCTYPE html>
+	<html>
+	<head>
+		<meta name="viewport" content="width=device-width">
+		<title> Chat </title>
+		<link rel="stylesheet" type="text/css" href="BP.css">
+		<Meta charset="UTF-8"/>
+	</head>
+<body>
+  <div id="header">
+  <img style="border-radius:100%; position: absolute; left:15px; top:15px; height:50px; width:45px;" src="mario.png">
+  <h2 style="position:absolute; left:70px;color:white;">BATATA</h2>
+ <div class="circle" id="advanced" style="text-align:center; height:40px; width:40px; position:absolute; right:15px; top:15px;"><a href="camera"><img style="position: absolute;top:5px; right:10px; height:30px; width:20px;" src="foto1.png"></a></div>
+ <div class="circle" id="advanced" style="text-align:center; height:40px; width:40px; position:absolute; right:60px; top:15px;"><a href="video"><img style="position: absolute;right:10px; top:10px; height:20px; width:20px;" src="video1.png"></a></div>
+ <div class="circle" id="advanced" style="text-align:center; height:40px; width:40px; position:absolute; right:105px; top:15px;"><a href="music"><img style="position: absolute;right:10px; top:8px;; height:25px; width:20px;" src="musica1.png"></a></div>
+  </div>
+  <div id="content"></div>
+<?php
+			
+			include "CONTROLADOR/VerMensagem.php";
+			VM($id);
+
+		?>
+  <form id="chat_form" action="index.php?X=BP&id=<?=$id?>" method="POST">
+    		<input type="text"  id='CInput' name="mensagem"/>
+    		
+    		<input type="submit" value='Enviar' name="ENVIAR" id='send'/>
+    		
+		</form>
+</body>
+</html>
+<?php } ?>

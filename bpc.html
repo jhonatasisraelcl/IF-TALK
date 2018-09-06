@@ -1,0 +1,61 @@
+		<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Chat</title>
+		<Meta charset="UTF-8"/>
+		<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function (){
+			//abrir arquivos
+			$("#arquivo").click(function(){
+				$(".submenu-1").show();
+			});
+			//imagem p fechar pegar o nome
+			$("#fechar").click(function(){
+				$(".submenu-1").hide();
+			});
+
+		});
+		</script>
+		<link rel="stylesheet" type="text/css" href="CSS/PaginaChat.css"/>
+	</head>
+	<body>
+		<div class="menu" id="menuA">
+		<ul class="menu"> <!-- Esse é o 1 nivel ou o nivel principal -->
+    <li style="font-size:40px;"><a href="#" style="height:90px; width:90px;">Menu</a></li>
+    <li><a href="#"style="height: 90px;width: 90px;"><img id="arquivo" src="IMG/anexo1.png"></a>
+       <ul class="submenu-1" style="display: block;width:520px; color:blue;"> <!-- Esse é o 2 nivel ou o primeiro Drop Down -->
+            
+<table>
+<tr><td colspan="2" align="right"><a href="#"><img  id="fechar" src="IMG/fechar.png" style="position:absolute; top:05px; left:500px;"></a></td></tr>
+<tr>
+<td><div class="circle" id="advanced" style="text-align:center; height:150px; width:150px; margin-right:20px;"><img height="140px" width="120px" src="IMG/foto1.png"></div></td>
+<td><div class="circle" id="advanced" style="text-align:center; height:150px; width:150px; margin-right:20px;"><img height="100px" width="100px" src="IMG/video1.png" style=" position:absolute; top:70px; left:245px;"></div></td>
+<td><div class="circle" id="advanced" style="text-align:center; height:150px; width:150px; margin-right:20px;"><img height="120px" width="120px" src="IMG/musica1.png" style="position:absolute; top:70px;left:400px;"></div></td>
+</tr>
+</table>
+        </ul>
+    </li>
+</ul>
+</div>
+		<div class='rolagem' id='CaixaChat'>
+			<p style= 'font-size:45px'; width:auto; height:auto;><div style='width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 19px 19px 19px;-moz-box-shadow: #B3B3B3 19px 19px 19px; box-shadow: #B3B3B3 19px 19px 19px;'>teste 1<br/>2015-11-16 21:30:29<br/>Malu<br/></div></p><p style= 'font-size:45px'; width:auto; height:auto;><div style='width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 19px 19px 19px;-moz-box-shadow: #B3B3B3 19px 19px 19px; box-shadow: #B3B3B3 19px 19px 19px;'>teste 2<br/>2015-11-16 21:30:35<br/>Malu<br/></div></p><p style= 'font-size:45px'; width:auto; height:auto;><div style='width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 19px 19px 19px;-moz-box-shadow: #B3B3B3 19px 19px 19px; box-shadow: #B3B3B3 19px 19px 19px;'>asdasdasd<br/>2015-11-16 21:36:57<br/>Malu<br/></div></p><p style= 'font-size:45px'; width:auto; height:auto;><div style='width:auto;height:auto;-webkit-border-radius: 73px 99px 3px 99px;-moz-border-radius: 73px 99px 3px 99px;border-radius: 73px 99px 3px 99px;background-color:#93BFD9;-webkit-box-shadow: #B3B3B3 19px 19px 19px;-moz-box-shadow: #B3B3B3 19px 19px 19px; box-shadow: #B3B3B3 19px 19px 19px;'>asdasdsad<br/>2015-11-16 21:37:01<br/>Malu<br/></div></p>		</div>
+		<form id="chat_form" action="index.php?X=BP&id=3" method="POST">
+    		<input type="text"  id='CInput' name="mensagem"/>
+    		<input type="submit" value='OK' name="OK" id='send'/>
+		</form>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('3', $('#CInput').val());
+        $('#CInput').val('');
+        return false;
+      });
+      socket.on('3', function(msg){
+        $('.rolagem').append($('<li>').text(msg));
+      });
+    </script>
+	</body>
+</html>
